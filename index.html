@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>U=U Buddy - HIV Education & Support</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #e74c3c;
+            --accent: #3498db;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa, #e8f4f8);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .info-panel {
+            background: linear-gradient(135deg, var(--primary), #5c8bc7);
+            color: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .info-panel h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .info-panel h1 span {
+            color: var(--success);
+        }
+        
+        .info-panel p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+        
+        .features {
+            margin-top: 30px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .feature-icon {
+            background: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .resources {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .resources h3 {
+            margin-bottom: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+        }
+        
+        .resources ul {
+            padding-left: 20px;
+        }
+        
+        .resources li {
+            margin-bottom: 8px;
+        }
+        
+        .resources a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .resources a:hover {
+            border-bottom: 1px solid white;
+        }
+        
+        /* Chatbot Styles */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .chat-header {
+            background: var(--dark);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .chat-header h2 {
+            font-size: 1.8rem;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .chat-header h2 span {
+            color: var(--success);
+        }
+        
+        .chat-header p {
+            opacity: 0.9;
+            margin-top: 5px;
+            font-size: 0.95rem;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: #f0f4f8;
+        }
+        
+        .message {
+            max-width: 85%;
+            padding: 15px 20px;
+            border-radius: 18px;
+            line-height: 1.6;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+            font-size: 1.05rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .bot-message {
+            background: white;
+            border-radius: 18px 18px 18px 4px;
+            align-self: flex-start;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e6ed;
+        }
+        
+        .user-message {
+            background: var(--accent);
+            color: white;
+            border-radius: 18px 18px 4px 18px;
+            align-self: flex-end;
+        }
+        
+        .menu-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 0 20px 20px;
+        }
+        
+        .menu-btn {
+            background: white;
+            border: 1px solid #e0e6ed;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .menu-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .chat-input-area {
+            display: flex;
+            padding: 15px 20px;
+            background: white;
+            border-top: 1px solid #e0e6ed;
+        }
+        
+        .chat-input-area input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 2px solid #e0e6ed;
+            border-radius: 30px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .chat-input-area input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .chat-input-area button {
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .chat-input-area button:hover {
+            background: #27ae60;
+            transform: scale(1.05);
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #aaa;
+            border-radius: 50%;
+            margin: 0 3px;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+        
+        .hopeful-reminder {
+            background: #fef9e7;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+            font-style: italic;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                grid-template-columns: 1fr;
+            }
+            
+            .info-panel {
+                padding: 30px 20px;
+            }
+            
+            .info-panel h1 {
+                font-size: 2.2rem;
+            }
+            
+            .menu-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .info-panel h1 {
+                font-size: 1.8rem;
+            }
+            
+            .chat-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="info-panel">
+            <h1>U=U Buddy <span>❤️</span></h1>
+            <p>Your friendly global chatbot for HIV education, support, and empowerment. U=U Buddy provides compassionate, evidence-based information about HIV treatment, stigma reduction, and healthy living.</p>
+            
+            <div class="features">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-heartbeat"></i></div>
+                    <div>Learn about U=U (Undetectable = Untransmittable)</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-pills"></i></div>
+                    <div>Understand HIV treatment & medication</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-heart"></i></div>
+                    <div>Navigate relationships & disclosure</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                    <div>Mental health & stigma support</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-globe-americas"></i></div>
+                    <div>Global HIV resources</div>
+                </div>
+            </div>
+            
+            <div class="resources">
+                <h3>Global Resources</h3>
+                <ul>
+                    <li><a href="https://www.preventionaccess.org/" target="_blank">Prevention Access Campaign</a></li>
+                    <li><a href="https://www.unaids.org/" target="_blank">UNAIDS</a></li>
+                    <li><a href="https://www.who.int/hiv" target="_blank">WHO HIV Program</a></li>
+                    <li><a href="https://www.hiv.gov/" target="_blank">HIV.gov</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2><i class="fas fa-robot"></i> U=U <span>Buddy</span></h2>
+                <p>Your compassionate HIV education and support assistant</p>
+            </div>
+            
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot-message">
+                    Hi there! 👋 I'm <strong>U=U Buddy</strong>, your friendly global chatbot for HIV education, support, and empowerment.<br><br>
+                    I'm here to help you understand HIV treatment, answer your questions about U=U (Undetectable = Untransmittable), and support you in living fully. 💛<br><br>
+                    Choose a topic below or ask me anything!
+                    
+                    <div class="hopeful-reminder">
+                        Remember: U=U means you can live, love, and thrive. 💛
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-options">
+                <button class="menu-btn" onclick="sendMenuMessage(this)"><i class="fas fa-lightbulb"></i> Learn About U=U</button>
+                <button class="menu-btn" onclick="sendMenuMessage(this)"><i class="fas fa-pills"></i> HIV Treatment & Meds</button>
+                <button class="menu-btn" onclick="sendMenuMessage(this)"><i class="fas fa-heart"></i> Sex, Love & Disclosure</button>
+                <button class="menu-btn" onclick="sendMenuMessage(this)"><i class="fas fa-brain"></i> Mental Health & Stigma</button>
+                <button class="menu-btn" onclick="sendMenuMessage(this)"><i class="fas fa-globe-americas"></i> Global HIV Resources</button>
+                <button class="menu-btn" onclick="sendMenuMessage(this)"><i class="fas fa-question-circle"></i> Ask Me Anything</button>
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Type your message here..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendUserMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        
+        // Responses database
+        const responses = {
+            "greeting": [
+                "Hello! How can I assist you with HIV education today? 💛", 
+                "Hi there! What would you like to know about U=U?"
+            ],
+            "what": [
+                "U=U stands for <strong>Undetectable = Untransmittable</strong>. This means that when a person living with HIV takes antiretroviral therapy (ART) as prescribed and achieves an undetectable viral load, they cannot sexually transmit HIV to others. ✅<br><br>This is based on decades of scientific research including the PARTNER studies, which found zero transmissions among thousands of couples.",
+                "U=U is a groundbreaking concept: People with HIV who maintain an undetectable viral load through consistent treatment <strong>cannot pass HIV to their sexual partners</strong>. 💊<br><br>This knowledge empowers people to live full lives without fear of transmission."
+            ],
+            "treatment": [
+                "Antiretroviral therapy (ART) works by suppressing HIV replication in your body. When taken consistently, it can reduce your viral load to undetectable levels. This protects your health and prevents transmission. ✅<br><br>Most people achieve an undetectable status within 3-6 months of starting treatment. Regular viral load tests confirm you're undetectable.",
+                "HIV treatment involves taking daily medications called antiretrovirals. These medications reduce the amount of HIV in your blood (viral load). When your viral load is undetectable, you stay healthy and cannot transmit HIV. 💊<br><br>Adherence is key - try setting daily reminders or using pill organizers to help."
+            ],
+            "relationships": [
+                "With U=U, you can have fulfilling relationships and a healthy sex life. ❤️ You cannot transmit HIV when undetectable, so you can have sex without condoms if both partners agree. Many couples have conceived children safely through natural means.<br><br>Disclosure is a personal decision. Sharing your status can build trust, but your health is private. Consider what feels safe and right for you.",
+                "Being undetectable means you can enjoy intimacy without fear. ❤️ When it comes to disclosure:<br>- You have the right to privacy<br>- Sharing can deepen relationships<br>- Consider safety and timing<br>Remember: Your status doesn't define your worth in relationships."
+            ],
+            "mental": [
+                "Living with HIV can be emotionally challenging. Many people experience stigma, shame, or anxiety. 🧠 Remember:<br>- Your diagnosis doesn't define your worth<br>- Support groups can provide community<br>- Therapy helps many process emotions<br>You're not alone - millions thrive with HIV!",
+                "HIV stigma is often worse than the virus itself. 🧠 Combat stigma by:<br>- Educating others about U=U<br>- Sharing your story (if comfortable)<br>- Seeking supportive communities<br>Your mental health matters. Be kind to yourself - this journey takes courage."
+            ],
+            "meds": [
+                "Missing a dose happens! Don't panic. 💊 Take it as soon as you remember, unless it's almost time for your next dose. Then just resume your normal schedule.<br><br>To improve adherence:<br>- Set phone reminders<br>- Use a weekly pill box<br>- Link medication to daily routines<br>Consistency helps, but occasional misses won't ruin your progress.",
+                "It's okay - we all forget sometimes! 💊 For ART:<br>- Take missed dose ASAP<br>- Don't double dose to catch up<br>- Get back on schedule<br>If you miss doses frequently, talk to your doctor about strategies or different regimens. You've got this!"
+            ],
+            "resources": [
+                "Here are global HIV resources that may help you: 🌍<br>- Prevention Access Campaign (U=U information): preventionaccess.org<br>- International AIDS Society: iasociety.org<br>- UNAIDS: unaids.org<br>- HIV.gov: hiv.gov<br>Many countries have national HIV programs you can contact.",
+                "These global organizations provide valuable HIV information: 🌍<br>- The Global Fund: theglobalfund.org<br>- PEPFAR: pepfar.gov<br>- Your local public health department<br>Remember you can always ask your healthcare provider for local resources."
+            ],
+            "default": [
+                "I'm not sure I understand. Could you rephrase your question? You can ask about U=U, HIV treatment, relationships, mental health, or global resources.", 
+                "I'm here to talk about HIV education and support. Try asking about what U=U means, how treatment works, or navigating relationships."
+            ],
+            "reminder": "Remember: U=U means you can live, love, and thrive. 💛"
+        };
+        
+        // Add message to chat
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+            messageDiv.innerHTML = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Show typing indicator
+        function simulateTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('typing-indicator');
+            typingDiv.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return typingDiv;
+        }
+        
+        // Get appropriate response
+        function getResponse(message) {
+            message = message.toLowerCase();
+            
+            if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
+                return responses.greeting[Math.floor(Math.random() * responses.greeting.length)];
+            }
+            if (message.includes('what') && (message.includes('u=u') || message.includes('undetectable'))) {
+                return responses.what[Math.floor(Math.random() * responses.what.length)];
+            }
+            if (message.includes('treat') || message.includes('art') || message.includes('med') || message.includes('viral')) {
+                return responses.treatment[Math.floor(Math.random() * responses.treatment.length)];
+            }
+            if (message.includes('sex') || message.includes('love') || message.includes('relation') || message.includes('disclos') || message.includes('date')) {
+                return responses.relationships[Math.floor(Math.random() * responses.relationships.length)];
+            }
+            if (message.includes('mental') || message.includes('stigma') || message.includes('shame') || message.includes('emotion')) {
+                return responses.mental[Math.floor(Math.random() * responses.mental.length)];
+            }
+            if (message.includes('miss') || message.includes('forgot') || message.includes('adher') || message.includes('dose')) {
+                return responses.meds[Math.floor(Math.random() * responses.meds.length)];
+            }
+            if (message.includes('resource') || message.includes('service') || message.includes('help') || message.includes('where') || message.includes('find')) {
+                return responses.resources[Math.floor(Math.random() * responses.resources.length)];
+            }
+            
+            return responses.default[Math.floor(Math.random() * responses.default.length)];
+        }
+        
+        // Send user message from input
+        function sendUserMessage() {
+            const message = userInput.value.trim();
+            if (message) {
+                addMessage(message, true);
+                userInput.value = '';
+                
+                const typing = simulateTyping();
+                
+                setTimeout(() => {
+                    chatMessages.removeChild(typing);
+                    const response = getResponse(message);
+                    addMessage(response + `<div class="hopeful-reminder">${responses.reminder}</div>`);
+                }, 1500);
+            }
+        }
+        
+        // Send message from menu button
+        function sendMenuMessage(button) {
+            const message = button.textContent;
+            addMessage(message, true);
+            
+            const typing = simulateTyping();
+            
+            setTimeout(() => {
+                chatMessages.removeChild(typing);
+                let response;
+                
+                if (message.includes("U=U")) {
+                    response = responses.what[Math.floor(Math.random() * responses.what.length)];
+                } else if (message.includes("Treatment")) {
+                    response = responses.treatment[Math.floor(Math.random() * responses.treatment.length)];
+                } else if (message.includes("Love")) {
+                    response = responses.relationships[Math.floor(Math.random() * responses.relationships.length)];
+                } else if (message.includes("Mental")) {
+                    response = responses.mental[Math.floor(Math.random() * responses.mental.length)];
+                } else if (message.includes("Resources")) {
+                    response = responses.resources[Math.floor(Math.random() * responses.resources.length)];
+                } else {
+                    response = "What would you like to know? I'm here to answer any questions about HIV, U=U, treatment, relationships, or mental health.";
+                }
+                
+                addMessage(response + `<div class="hopeful-reminder">${responses.reminder}</div>`);
+            }, 1500);
+        }
+        
+        // Handle Enter key press
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendUserMessage();
+            }
+        }
+        
+        // Initial bot message after a short delay
+        setTimeout(() => {
+            addMessage("You can ask me questions like: 'What does U=U mean?' or 'How do I talk to my partner about my status?'");
+        }, 3000);
+    </script>
+</body>
+</html>
